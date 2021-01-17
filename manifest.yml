@@ -3,5 +3,6 @@ applications:
 - name: aepi.me
   buildpack: php_buildpack
   routes:
-  - route: book.jacobrichman.com
+  - route: aepi.me
+  - route: www.aepi.me
   memory: 128M
