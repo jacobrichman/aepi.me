@@ -3,8 +3,7 @@ import os
 from http.server import BaseHTTPRequestHandler
 import socketserver
 
-import requests
-from contextlib import closing
+import urllib.request
 import csv
 
 port = int(os.getenv('PORT', '5000'))
@@ -44,12 +43,12 @@ class Redirect(BaseHTTPRequestHandler):
             self.wfile.write(bytes("</html>", "utf-8"))
         else:
             destination = ""
-            with closing(requests.get(spreadsheet_url, stream=True)) as r:
-                f = (line.decode('utf-8') for line in r.iter_lines())
-                reader = csv.reader(f, delimiter=',', quotechar='"')
-                for row in reader:
-                    if row[1].strip() == path.strip():
-                        destination = row[2]
+            response = urllib.request.urlopen(spreadsheet_url)
+            lines = [l.decode('utf-8') for l in response.readlines()]
+            cr = csv.reader(lines)
+            for row in cr:
+                if row[1].strip() == path.strip():
+                    destination = row[2]
         
             if destination != "":
                 self.wfile.write(bytes('<script>window.location = "%s";</script>' % destination, "utf-8"))
