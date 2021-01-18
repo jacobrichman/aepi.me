@@ -1,0 +1,9 @@
+---
+applications:
+- name: aepi.me
+  buildpack: python_buildpack
+  routes:
+  - route: aepi.me
+  - route: www.aepi.me
+  memory: 128M
+  command: python run.py
