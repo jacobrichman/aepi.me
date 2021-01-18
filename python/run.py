@@ -1,6 +1,8 @@
 import os
-import sys
-from http.server import HTTPServer, BaseHTTPRequestHandler
+
+from http.server import BaseHTTPRequestHandler
+import socketserver
+
 import requests
 from contextlib import closing
 import csv
@@ -34,7 +36,10 @@ class Redirect(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes("%s" % main, "utf-8"))
 
-        if path == "add":
+        if path == "":
+            self.wfile.write(bytes("<h1>Welcome to aepi.me!</h1>", "utf-8"))
+            self.wfile.write(bytes("</html>", "utf-8"))
+        elif path == "add":
             self.wfile.write(bytes("%s" % addiframe, "utf-8"))
             self.wfile.write(bytes("</html>", "utf-8"))
         else:
@@ -50,7 +55,9 @@ class Redirect(BaseHTTPRequestHandler):
                 self.wfile.write(bytes('<script>window.location = "%s";</script>' % destination, "utf-8"))
                 self.wfile.write(bytes("</html>", "utf-8"))
             else:
-                self.wfile.write(bytes("URL could not be found :(", "utf-8"))
+                self.wfile.write(bytes("<h1>URL could not be found :(</h1>", "utf-8"))
                 self.wfile.write(bytes("</html>", "utf-8"))
 
-HTTPServer(("", port), Redirect).serve_forever()
+httpd = socketserver.TCPServer(("", port), Redirect)
+print("serving at port", port)
+httpd.serve_forever()
