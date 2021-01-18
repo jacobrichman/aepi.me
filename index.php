@@ -1,5 +1,6 @@
 <?php
 $spreadsheet_url=$_ENV["SPREADSHEET_URL"];
+echo "url: ".$spreadsheet_url;
 
 if(!ini_set('default_socket_timeout', 15)) echo "<!-- unable to change socket timeout -->";
 
