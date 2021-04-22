@@ -47,7 +47,7 @@ class Redirect(BaseHTTPRequestHandler):
             lines = [l.decode('utf-8') for l in response.readlines()]
             cr = csv.reader(lines)
             for row in cr:
-                if row[1].strip() == path.strip():
+                if row[1].strip() == path.split('?')[0].strip():
                     destination = row[2]
         
             if destination != "":
