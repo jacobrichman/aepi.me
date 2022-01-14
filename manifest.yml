@@ -5,5 +5,5 @@ applications:
   routes:
   - route: aepi.me
   - route: www.aepi.me
-  memory: 128M
+  memory: 64M
   command: python python/run.py
