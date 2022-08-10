@@ -8,7 +8,7 @@ from urllib.parse import urlparse
 from urllib.parse import parse_qs
 import csv
 
-port = int(os.getenv('PORT', '32346'))
+port = int(os.getenv('PORT', '5000'))
 spreadsheet_url = os.getenv('SPREADSHEET_URL')
 aepi_password = os.getenv('AEPI_PASSWORD')
 main = '''
@@ -80,17 +80,6 @@ class Redirect(BaseHTTPRequestHandler):
             self.wfile.write(bytes(password, "utf-8"))
             self.wfile.write(bytes(password_javascript % route, "utf-8"))
             self.wfile.write(bytes("</html>", "utf-8"))
-
-
-
-        
-            # if destination != "":
-            #
-            #     self.wfile.write(bytes('<script>window.location = "%s";</script>' % destination, "utf-8"))
-            #     self.wfile.write(bytes("</html>", "utf-8"))
-            # else:
-            #     self.wfile.write(bytes("<h1>URL could not be found :(</h1>", "utf-8"))
-            #     self.wfile.write(bytes("</html>", "utf-8"))
 
 httpd = socketserver.TCPServer(("", port), Redirect)
 print("serving at port", port)
